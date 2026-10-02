@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://blh72fujbhj8"]
+
+[ext_resource type="Material" uid="uid://chews71iab4sf" path="res://mats/kenney/PNG/Dark/texture_01_Dark_kenney.tres" id="1_4myfd"]
+[ext_resource type="Script" uid="uid://depnof2bmiovt" path="res://scripts/physics/controller.gd" id="2_cxeug"]
+[ext_resource type="Script" uid="uid://cv8x8rwqoemh3" path="res://scripts/visual.gd" id="3_jureh"]
+[ext_resource type="Texture2D" uid="uid://dpuoki3s5eefq" path="res://mats/kenney/PNG/Orange/texture_01.png" id="4_xqoxs"]
+[ext_resource type="Script" uid="uid://kjii4yi1e52k" path="res://scripts/GUI/hud.gd" id="5_nm3ft"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_poqc4"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="BoxMesh" id="BoxMesh_evngs"]
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5arm"]
+albedo_texture = ExtResource("4_xqoxs")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_poqc4"]
+top_radius = 0.033
+bottom_radius = 0.033
+height = 0.115
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pd8n4"]
+
+[sub_resource type="Sky" id="Sky_lrxni"]
+sky_material = SubResource("ProceduralSkyMaterial_pd8n4")
+
+[sub_resource type="Environment" id="Environment_poqc4"]
+background_mode = 2
+sky = SubResource("Sky_lrxni")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_evngs"]
+
+[sub_resource type="Compositor" id="Compositor_lvrgt"]
+
+[node name="Node3D" type="Node3D" unique_id=1169991680]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1444233449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=743623975]
+shape = SubResource("BoxShape3D_poqc4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1462566335]
+material_override = ExtResource("1_4myfd")
+mesh = SubResource("BoxMesh_evngs")
+
+[node name="cansat" type="Node3D" parent="." unique_id=710325546]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+script = ExtResource("2_cxeug")
+
+[node name="Visual" type="Node" parent="cansat" unique_id=1990934116]
+script = ExtResource("3_jureh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cansat" unique_id=1589131671]
+material_override = SubResource("StandardMaterial3D_i5arm")
+mesh = SubResource("CylinderMesh_poqc4")
+
+[node name="Camera3D" type="Camera3D" parent="cansat" unique_id=852473121]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0.25, 0.5)
+
+[node name="HUD" type="CanvasLayer" parent="cansat/Camera3D" unique_id=582769168]
+script = ExtResource("5_nm3ft")
+
+[node name="PanelContainer" type="PanelContainer" parent="cansat/Camera3D/HUD" unique_id=1043210303]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -228.0
+offset_bottom = 210.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="cansat/Camera3D/HUD/PanelContainer" unique_id=99628501]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer" unique_id=654679491]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=639009492]
+layout_mode = 2
+text = "Data:"
+
+[node name="AltitudeValue" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1249014449]
+layout_mode = 2
+text = "2km"
+
+[node name="AltitudeBar" type="ProgressBar" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=870343511]
+custom_minimum_size = Vector2(32, 180)
+layout_mode = 2
+max_value = 2000.0
+fill_mode = 3
+show_percentage = false
+
+[node name="PressureValue" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1911175298]
+layout_mode = 2
+text = "2kPa"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2081153806]
+environment = SubResource("Environment_poqc4")
+camera_attributes = SubResource("CameraAttributesPractical_evngs")
+compositor = SubResource("Compositor_lvrgt")
