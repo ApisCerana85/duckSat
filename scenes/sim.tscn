@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://chews71iab4sf" path="res://mats/kenney/PNG/Dark/texture_01_Dark_kenney.tres" id="1_4myfd"]
 [ext_resource type="Script" uid="uid://depnof2bmiovt" path="res://scripts/physics/controller.gd" id="2_cxeug"]
-[ext_resource type="Script" uid="uid://cv8x8rwqoemh3" path="res://scripts/visual.gd" id="3_jureh"]
+[ext_resource type="Script" uid="uid://cv8x8rwqoemh3" path="res://scripts/visual.gd" id="3_4myfd"]
 [ext_resource type="Texture2D" uid="uid://dpuoki3s5eefq" path="res://mats/kenney/PNG/Orange/texture_01.png" id="4_xqoxs"]
 [ext_resource type="Script" uid="uid://kjii4yi1e52k" path="res://scripts/GUI/hud.gd" id="5_nm3ft"]
 
@@ -50,7 +50,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
 script = ExtResource("2_cxeug")
 
 [node name="Visual" type="Node" parent="cansat" unique_id=1990934116]
-script = ExtResource("3_jureh")
+script = ExtResource("3_4myfd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="cansat" unique_id=1589131671]
 material_override = SubResource("StandardMaterial3D_i5arm")
