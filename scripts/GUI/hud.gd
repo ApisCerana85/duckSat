@@ -1,7 +1,5 @@
 extends CanvasLayer
 
-var state: SimState
-
 @onready var altitude_label: Label = $PanelContainer/MarginContainer/VBoxContainer/AltitudeValue
 @onready var altitude_bar: ProgressBar = $PanelContainer/MarginContainer/VBoxContainer/AltitudeBar
 @onready var pressure_label: Label = $PanelContainer/MarginContainer/VBoxContainer/PressureValue
