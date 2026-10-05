@@ -17,7 +17,7 @@ class Atmo:
 	const SEA_LEVEL_PRESSURE := 101325.0
 	const PRESSURE_SCALE_HEIGHT := 8434.0
 	const MASS := 0.3 # kg
-	const DRAG_COEFFICIENT := 0.5
+	const DRAG_COEFFICIENT := 0.82
 	const AREA := PI * (0.033**2)
 	func density(altitude: float) -> float:
 		return Atmo.SEA_LEVEL_DENSITY * exp(-altitude / Atmo.DENSITY_SCALE_HEIGHT)
@@ -33,8 +33,7 @@ class Atmo:
 		#var relative_velocity_max = sqrt(relative_velocity.x**2 + relative_velocity.y**2 + relative_velocity.z**2)
 		
 		if speed==0.0: return Vector3.ZERO
-		return -0.5 * air_density * DRAG_COEFFICIENT * AREA * speed * relative_velocity.z
-
+		return -0.5 * air_density * DRAG_COEFFICIENT * AREA * speed * relative_velocity
 
 var state: SimState
 var atmo: Atmo
@@ -66,9 +65,9 @@ func update_accel(delta: float):
 	var drag_force: Vector3 = atmo.drag_force(state.velocity, wind, state.atmo_density)
 
 	#calculates the velocity
-	state.velocity += (GRAVITY * atmo.MASS - drag_force) * delta # TODO: add random error so it becomes realistic
+	state.velocity += (GRAVITY * atmo.MASS + drag_force) * delta # TODO: add random error so it becomes realistic
 	
-	var v_term = sqrt((atmo.MASS * GRAVITY.y)* 2 / drag_force.length() ) # terminal velocity
+	var v_term = sqrt((atmo.MASS * GRAVITY.y)* 2 / drag_force.y ) # terminal velocity
 	print(v_term)  ##if you want to check max velocity
 
 	#just checks if we'll hit the floor and stops if neccessary
