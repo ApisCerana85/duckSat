@@ -18,7 +18,7 @@ class Atmo:
 	const PRESSURE_SCALE_HEIGHT := 8434.0
 	const MASS := 0.3 # kg
 	const DRAG_COEFFICIENT := 0.5
-	const AREA := 0.01
+	const AREA := PI * (0.033**2)
 	func density(altitude: float) -> float:
 		return Atmo.SEA_LEVEL_DENSITY * exp(-altitude / Atmo.DENSITY_SCALE_HEIGHT)
 		
@@ -28,9 +28,12 @@ class Atmo:
 	func drag_force(velocity: Vector3, wind: Vector3, air_density: float) -> Vector3:
 		var relative_velocity = velocity-wind # the wind should get the fuck out i think but ok :D
 		var speed := relative_velocity.length()
+
+		#something new... i dont know if its correct and if it even should be here
+		#var relative_velocity_max = sqrt(relative_velocity.x**2 + relative_velocity.y**2 + relative_velocity.z**2)
 		
 		if speed==0.0: return Vector3.ZERO
-		return -0.5 * air_density * DRAG_COEFFICIENT * AREA * speed * relative_velocity
+		return -0.5 * air_density * DRAG_COEFFICIENT * AREA * speed * relative_velocity.z
 
 
 var state: SimState
@@ -51,18 +54,32 @@ func _init() -> void:
 	self.atmo = Atmo.new()
 
 func update_accel(delta: float):
+	#delta means "delta time" so the same as DT in previous versions
+	#REMEMBER TO MULTIPLY TIMES delta WHERE THERES A second AS A UNIT
+
+	#just save the current atmospheric data so it can be read in other places (not important for calculating acceleration)
 	state.atmo_density = atmo.density(state.position.y)
 	state.atmo_pressure = atmo.pressure(state.position.y)
 	
-	var drag_force: Vector3 = atmo.drag_force(state.velocity, Vector3(0.1, 0.0, 3.0), state.atmo_density)
-	state.velocity = GRAVITY * atmo.MASS + drag_force # TODO: add error
+	var wind: Vector3 = Vector3(0.1, 0.0, 3.0) # TODO: make variable as altitude gets lower
+
+	var drag_force: Vector3 = atmo.drag_force(state.velocity, wind, state.atmo_density)
+
+	#calculates the velocity
+	state.velocity += (GRAVITY * atmo.MASS - drag_force) * delta # TODO: add random error so it becomes realistic
+	
+	var v_term = sqrt((atmo.MASS * GRAVITY.y)* 2 / drag_force.length() ) # terminal velocity
+	print(v_term)  ##if you want to check max velocity
+
+	#just checks if we'll hit the floor and stops if neccessary
 	if (state.position+state.velocity*delta).y <= 0:
 		state.velocity=Vector3.ZERO
 		return
 	
+
 	state.position += state.velocity * delta
 	
-	if state.update_count < 4: state.update_count+=1
+	if state.update_count < 4: state.update_count+=1 # use for counting the updates
 	#print("velocity: ", state.velocity)
 	#print("position: ", state.position)
 
