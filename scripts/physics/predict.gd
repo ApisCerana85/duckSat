@@ -19,7 +19,7 @@ func predict(positions: Array[Vector3], i: int) -> Array[Vector3]:
 	return positions
 
 func draw(positions: Array[Vector3]):
-	print("drawing prediction_line")
+	#print("drawing prediction_line")
 	prediction_line.mesh.clear_surfaces()
 
 	if positions.size() < 2:

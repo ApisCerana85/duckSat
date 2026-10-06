@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dpuoki3s5eefq" path="res://mats/kenney/PNG/Orange/texture_01.png" id="4_xqoxs"]
 [ext_resource type="Script" uid="uid://kjii4yi1e52k" path="res://scripts/GUI/hud.gd" id="5_nm3ft"]
 [ext_resource type="Script" uid="uid://bs85iqflxg7yj" path="res://scripts/physics/predict.gd" id="6_cxeug"]
+[ext_resource type="Script" uid="uid://bg06keqiokuvf" path="res://scripts/camDynamics.gd" id="6_jureh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_poqc4"]
 size = Vector3(1000, 1, 1000)
@@ -67,13 +68,16 @@ script = ExtResource("6_cxeug")
 top_level = true
 mesh = SubResource("ImmediateMesh_cxeug")
 
-[node name="Camera3D" type="Camera3D" parent="cansat" unique_id=852473121]
-transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0.25, 0.5)
+[node name="CameraPivot" type="Node3D" parent="cansat" unique_id=1444703010]
+script = ExtResource("6_jureh")
 
-[node name="HUD" type="CanvasLayer" parent="cansat/Camera3D" unique_id=582769168]
+[node name="Camera3D" type="Camera3D" parent="cansat/CameraPivot" unique_id=852473121]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+
+[node name="HUD" type="CanvasLayer" parent="cansat/CameraPivot/Camera3D" unique_id=582769168]
 script = ExtResource("5_nm3ft")
 
-[node name="PanelContainer" type="PanelContainer" parent="cansat/Camera3D/HUD" unique_id=1043210303]
+[node name="PanelContainer" type="PanelContainer" parent="cansat/CameraPivot/Camera3D/HUD" unique_id=1043210303]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -81,28 +85,28 @@ offset_left = -228.0
 offset_bottom = 210.0
 grow_horizontal = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="cansat/Camera3D/HUD/PanelContainer" unique_id=99628501]
+[node name="MarginContainer" type="MarginContainer" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer" unique_id=99628501]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer" unique_id=654679491]
+[node name="VBoxContainer" type="VBoxContainer" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer/MarginContainer" unique_id=654679491]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=639009492]
+[node name="Title" type="Label" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=639009492]
 layout_mode = 2
 text = "Data:"
 
-[node name="AltitudeValue" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1249014449]
+[node name="AltitudeValue" type="Label" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1249014449]
 layout_mode = 2
 text = "2km"
 
-[node name="AltitudeBar" type="ProgressBar" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=870343511]
+[node name="AltitudeBar" type="ProgressBar" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=870343511]
 custom_minimum_size = Vector2(32, 180)
 layout_mode = 2
 max_value = 2000.0
 fill_mode = 3
 show_percentage = false
 
-[node name="PressureValue" type="Label" parent="cansat/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1911175298]
+[node name="PressureValue" type="Label" parent="cansat/CameraPivot/Camera3D/HUD/PanelContainer/MarginContainer/VBoxContainer" unique_id=1911175298]
 layout_mode = 2
 text = "2kPa"
 

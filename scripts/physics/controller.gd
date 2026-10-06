@@ -11,7 +11,7 @@ extends Node3D
 var instruments: VirtualInstruments
 @onready var predict = $Predictor
 
-@onready var hud = $Camera3D/HUD
+@onready var hud = $CameraPivot/Camera3D/HUD
 
 const START_POSITION := Vector3(0.0, 2000.0, 0.0)
 
