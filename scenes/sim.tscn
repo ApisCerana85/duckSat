@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cv8x8rwqoemh3" path="res://scripts/visual.gd" id="3_4myfd"]
 [ext_resource type="Texture2D" uid="uid://dpuoki3s5eefq" path="res://mats/kenney/PNG/Orange/texture_01.png" id="4_xqoxs"]
 [ext_resource type="Script" uid="uid://kjii4yi1e52k" path="res://scripts/GUI/hud.gd" id="5_nm3ft"]
+[ext_resource type="Script" uid="uid://bs85iqflxg7yj" path="res://scripts/physics/predict.gd" id="6_cxeug"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_poqc4"]
 size = Vector3(1000, 1, 1000)
@@ -19,6 +20,8 @@ albedo_texture = ExtResource("4_xqoxs")
 top_radius = 0.033
 bottom_radius = 0.033
 height = 0.115
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_cxeug"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pd8n4"]
 
@@ -55,6 +58,14 @@ script = ExtResource("3_4myfd")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="cansat" unique_id=1589131671]
 material_override = SubResource("StandardMaterial3D_i5arm")
 mesh = SubResource("CylinderMesh_poqc4")
+
+[node name="Predictor" type="Node3D" parent="cansat" unique_id=302170501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0)
+script = ExtResource("6_cxeug")
+
+[node name="PredictionLine" type="MeshInstance3D" parent="cansat/Predictor" unique_id=146956114]
+top_level = true
+mesh = SubResource("ImmediateMesh_cxeug")
 
 [node name="Camera3D" type="Camera3D" parent="cansat" unique_id=852473121]
 transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 0.25, 0.5)

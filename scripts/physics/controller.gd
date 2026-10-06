@@ -9,6 +9,7 @@ extends Node3D
 		#cansat.transform
 
 var instruments: VirtualInstruments
+@onready var predict = $Predictor
 
 @onready var hud = $Camera3D/HUD
 
@@ -19,12 +20,19 @@ func _init() -> void:
 	instruments.set_position(START_POSITION)
 	self.position = instruments.get_position()
 
+	self.predict = Predictor.new()
+
 var accumulator := 0.0
+var positions: Array[Vector3] = [START_POSITION]
 func _process(delta):
 	accumulator += delta
 	
 	while accumulator >= instruments.ACCEL_FREQ:
 		instruments.update_accel(accumulator)
+		if instruments.get_update_count() == 4:
+			positions.append(instruments.get_position())
+			predict.draw(predict.predict(positions, 20))
 		accumulator -= instruments.ACCEL_FREQ
+	
 	self.position = instruments.get_position()
 	hud.update_data(instruments.get_position().y, instruments.get_atmo_pressure(), instruments.get_speed())

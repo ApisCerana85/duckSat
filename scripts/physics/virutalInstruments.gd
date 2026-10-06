@@ -67,8 +67,8 @@ func update_accel(delta: float):
 	#calculates the velocity
 	state.velocity += (GRAVITY * atmo.MASS + drag_force) * delta # TODO: add random error so it becomes realistic
 	
-	var v_term = sqrt((atmo.MASS * GRAVITY.y)* 2 / drag_force.y ) # terminal velocity
-	print(v_term)  ##if you want to check max velocity
+	#var v_term = sqrt((atmo.MASS * GRAVITY.y)* 2 / drag_force.y ) # terminal velocity
+	#print(v_term)  ##if you want to check max velocity
 
 	#just checks if we'll hit the floor and stops if neccessary
 	if (state.position+state.velocity*delta).y <= 0:
@@ -79,6 +79,7 @@ func update_accel(delta: float):
 	state.position += state.velocity * delta
 	
 	if state.update_count < 4: state.update_count+=1 # use for counting the updates
+	else: state.update_count = 0
 	#print("velocity: ", state.velocity)
 	#print("position: ", state.position)
 
@@ -93,6 +94,8 @@ func get_speed() -> float:
 	return self.state.velocity.length()
 func get_atmo_pressure() -> float:
 	return self.state.atmo_pressure
+func get_update_count() -> int:
+	return self.state.update_count
 
 func set_position(position: Vector3):
 	self.state.position=position
